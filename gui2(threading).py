@@ -189,14 +189,41 @@ def tap():
     times = np.append(times, (seconds-lastTime))
     lastTime = seconds
 
+    # removes the first element in the array (the oldest one)
     if(times.size == 4):
         times = np.delete(times, 0)
 
-    average = (times[0]+times[1]+times[2])/3
+    # calculate average of the times in the array
+    # only uses relevent taps for the average
+    average = 0
+    for x in range(times.size):
+        average += times[x]
+    average = average/times.size
+
+    # first tap
+    # if the most recent is the largest it ignores it
+    if(average*2 < times[2]):
+        average = (times[0]+times[1])/2
+        print("**first big**\n")
+        # if the most recent is the smallest it goes with it
+    elif(average/2 > times[2]):
+        average = (times[2])
+        print("**first small**\n")
+    # second tap
+    # if the most recent is the smallest it goes with it
+    elif(average > times[0]*2):
+        average = (times[1]+times[2])/2
+        print("**third small**\n")
+    elif(average*2 < times[0]):
+        average = (times[1]+times[2])/2
+        print("**third big**\n")
+
+
+
     tapTime = average
     flashLoop = True
 
-    # print(times)
+    print(times)
     print(average)
 
 # flash function (loops in a thread)
