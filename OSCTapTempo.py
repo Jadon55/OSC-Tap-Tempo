@@ -37,6 +37,7 @@ client = SimpleUDPClient(targetIP, TargetPort)
 def createMlist():
     global first, last, copyList, masterList
     masterList = np.array([0])
+    copyList = np.array([0])
 
     for x in range((last - first)+1):
         masterList = np.append(masterList, (first+x))
